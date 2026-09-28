@@ -109,6 +109,11 @@ Foi criado um chatbot inteligente utilizando arquitetura **RAG**, onde:
   * *Justificativa:* Para garantir uma interface de usuário (UI) simples, funcional e de rápido desenvolvimento.
  
 ---
+
+## 🎥 Video
+**YouTube:** https://youtu.be/4f3icEvVS1g
+
+---
  
 ## 📌 Exemplos de Perguntas
 
