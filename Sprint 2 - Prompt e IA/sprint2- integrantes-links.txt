@@ -1,0 +1,18 @@
+Sprint 2 - Prompt And Artificial Intelligence
+
+
+Integrantes:
+Daniel Vieira RM: 573326
+Giovane Salazar RM: 570396
+Gustavo Bitencourt RM: 568885
+Leonardo Takachi RM: 569066
+
+
+Link do GitHub: https://github.com/giovanesalazar/goodwe-chargeops-rag-chatbot
+
+Link do vídeo (Youtube): https://youtu.be/4f3icEvVS1g
+
+
+
+
+
