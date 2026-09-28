@@ -191,16 +191,21 @@ Nunca invente dados. Caso a informação não esteja disponível, informe claram
 ## Modelo de Teste (Perguntas e Respostas Esperadas)
  
 1. **Pergunta:** "Qual o consumo total do carregador 01 este mês?"
-   **Resposta esperada:** O consumo total do carregador 01 no mês atual é de 245 kWh, considerando os dados registrados entre o início e o final do período analisado.
+
+    **Resposta esperada:** O consumo total do carregador 01 no mês atual é de 245 kWh, considerando os dados registrados entre o início e o final do período analisado.
  
 2. **Pergunta:** "O apartamento 102 realizou alguma recarga hoje?"
-   **Resposta esperada:** Sim, o apartamento 102 realizou uma recarga hoje. A última sessão foi registrada às 18:45, com duração de 1h20.
+
+    **Resposta esperada:** Sim, o apartamento 102 realizou uma recarga hoje. A última sessão foi registrada às 18:45, com duração de 1h20.
  
 3. **Pergunta:** "O que significa a luz vermelha piscando no carregador?"
+
    **Resposta esperada:** A luz vermelha piscando indica uma falha no sistema. Recomenda-se verificar o aterramento do equipamento e reiniciar o carregador. Caso o problema persista, é necessário acionar o suporte técnico.
  
 4. **Pergunta:** "Como faço para cadastrar um novo morador no sistema?"
+
    **Resposta esperada:** Para cadastrar um novo morador, acesse o sistema de gestão do EV ChargeOps, vá até a seção de usuários, selecione "Adicionar novo usuário" e registre os dados do morador juntamente com a tag de acesso ao carregador.
  
 5. **Pergunta:** "Gere um relatório de faturamento para o Bloco A."
+
    **Resposta esperada:** O faturamento total do Bloco A no período analisado é de R$ 1.250,00, considerando o consumo individual de todas as unidades e a tarifa de energia aplicada.
