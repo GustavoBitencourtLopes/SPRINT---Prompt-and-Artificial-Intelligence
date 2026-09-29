@@ -1,7 +1,11 @@
 # 🔴 EV Challenge — GoodWe · Sprint 04
 
 **Disciplina:** Prompt and Artificial Intelligence — FIAP × GoodWe Brasil  
-**Curso:** Ciência da Computação — 1º ano — 2026.2  
+##  Integrantes
+* **Daniel Vieira Santos** - RM: 573326
+* **Gustavo Bitencourt Lopes** - RM: 568885
+* **Giovane Salazar Fioravante** - RM: 570396
+* **Leonardo Basile Takachi** - RM: 569066
 
 ## Objetivo e base da análise
 
