@@ -1,37 +1,51 @@
 # 🔴 EV Challenge — GoodWe · Sprint 04
 
 **Disciplina:** Prompt and Artificial Intelligence — FIAP × GoodWe Brasil  
-##  Integrantes
-* **Daniel Vieira Santos** - RM: 573326
-* **Gustavo Bitencourt Lopes** - RM: 568885
-* **Giovane Salazar Fioravante** - RM: 570396
-* **Leonardo Basile Takachi** - RM: 569066
+
+## Integrantes
+
+- **Daniel Vieira Santos** — RM: 573326
+- **Gustavo Bitencourt Lopes** — RM: 568885
+- **Giovane Salazar Fioravante** — RM: 570396
+- **Leonardo Basile Takachi** — RM: 569066
+
+---
 
 ## Visão geral
 
-Este repositório contém a evolução do chatbot EV Challenge — GoodWe para a Sprint 04. O foco desta etapa é avaliar o agente de forma sistemática, usando um Golden Dataset com gabaritos, execução comparativa entre duas configurações de modelo e avaliação automatizada com LLM as a Judge.
+Este repositório contém a evolução do chatbot EV Challenge — GoodWe para a Sprint 04. O objetivo desta etapa é avaliar o comportamento do agente de forma sistemática, utilizando um Golden Dataset com perguntas, gabaritos e critérios de aceite, além de comparar duas configurações de modelos de linguagem por meio de avaliação automatizada com LLM as a Judge.
 
-O chatbot utiliza recuperação de contexto (RAG) a partir do manual/documentação GoodWe para fundamentar as respostas e orientar o agente a não inventar informações, respeitar o escopo e tratar pedidos de risco com cautela.
+O chatbot utiliza uma abordagem de Retrieval-Augmented Generation (RAG), que recupera informações da documentação GoodWe para fornecer contexto às respostas. O projeto também considera regras de segurança, aderência ao escopo e resistência a tentativas de manipulação das instruções do agente.
+
+Nesta sprint, o foco está na criação de um processo de avaliação reproduzível, no registro dos resultados e na identificação de limitações que precisam ser corrigidas.
+
+---
 
 ## Objetivos da Sprint 04
 
-- Construir um Golden Dataset com perguntas, gabaritos e critérios de aceite.
+- Construir um Golden Dataset com perguntas, gabaritos semânticos e critérios de aceite.
 - Executar os mesmos casos em pelo menos duas configurações do agente.
-- Medir correção, relevância, aderência ao escopo e segurança.
-- Gerar uma classificação baseada em scores, não apenas em impressão subjetiva.
-- Comparar a avaliação automatizada com a avaliação manual da Sprint 03.
-- Exportar resultados para CSV e consolidá-los no relatório PDF.
+- Avaliar correção, relevância, aderência ao escopo e segurança.
+- Utilizar um LLM as a Judge para atribuir notas e justificativas às respostas.
+- Gerar scores e métricas para comparar o comportamento das versões.
+- Relacionar os resultados automatizados à avaliação manual da Sprint 03, considerando as diferenças entre os métodos.
+- Exportar os dados e as métricas para arquivos CSV.
+- Documentar os resultados, as limitações e os pontos que precisam de validação.
 
-## Tecnologias
+---
 
-- Python
-- Jupyter Notebook / Kaggle
-- pandas
-- Hugging Face Transformers
-- LangChain
-- ChromaDB
-- Sentence Transformers
-- Modelos de linguagem Qwen e TinyLlama
+## Tecnologias utilizadas
+
+- **Python:** implementação do pipeline de avaliação.
+- **Jupyter Notebook / Kaggle:** ambiente de execução e experimentação.
+- **pandas:** organização e análise dos dados.
+- **Hugging Face Transformers:** carregamento e utilização dos modelos de linguagem.
+- **LangChain:** estruturação do fluxo de recuperação e geração.
+- **ChromaDB:** armazenamento e recuperação de documentos vetorizados.
+- **Sentence Transformers:** geração de embeddings para recuperação semântica.
+- **Qwen e TinyLlama:** modelos de linguagem comparados na avaliação.
+
+---
 
 ## Modelos avaliados
 
@@ -40,93 +54,173 @@ O chatbot utiliza recuperação de contexto (RAG) a partir do manual/documentaç
 | `V1_Qwen` | `Qwen/Qwen2.5-1.5B-Instruct` |
 | `V2_TinyLlama` | `TinyLlama/TinyLlama-1.1B-Chat-v1.0` |
 
-As duas configurações usam o mesmo Golden Dataset, contexto recuperado e instruções principais. A variável principal da comparação é o modelo de linguagem.
+As duas versões são avaliadas com o mesmo conjunto de perguntas e o mesmo processo geral de avaliação. A principal variável da comparação é o modelo de linguagem utilizado na geração das respostas.
+
+---
 
 ## Golden Dataset
 
-O dataset contém 11 casos:
+O Golden Dataset contém **11 casos de teste**, identificados de Q01 a Q11. Cada caso possui uma pergunta, um gabarito semântico e um critério de aceite que define o comportamento esperado do agente.
 
-- **Funcionalidade (3):** download/instalação, funcionalidades e desligamento do carregador.
-- **Escopo (1):** solicitação não relacionada à solução GoodWe.
-- **Segurança (7):** prompt injection, desmontagem/intervenção elétrica, precauções elétricas, pedido de aconselhamento jurídico e solicitação para inventar especificações.
+Os casos estão distribuídos entre as seguintes categorias:
 
-Cada caso possui um identificador, uma pergunta, um gabarito semântico e um critério de aceite. A resposta não precisa reproduzir literalmente o gabarito, mas deve cumprir o critério esperado.
+- **Funcionalidade (3 casos):** perguntas sobre instalação do aplicativo, funcionalidades e desligamento do carregador.
+- **Escopo (1 caso):** solicitação não relacionada ao domínio da solução GoodWe.
+- **Segurança (7 casos):** situações que envolvem prompt injection, desmontagem ou intervenção elétrica, precauções de segurança, aconselhamento jurídico e solicitações para inventar especificações.
+
+O objetivo é verificar se o agente responde de acordo com a documentação disponível, respeita os limites da aplicação e evita fornecer informações sem fundamento ou orientações potencialmente perigosas.
+
+A resposta não precisa reproduzir literalmente o gabarito, mas deve atender ao critério de aceite definido para o caso.
+
+---
+
+## Metodologia de avaliação
+
+O processo de avaliação segue estas etapas:
+
+1. Preparação do Golden Dataset com as perguntas e os critérios esperados.
+2. Execução das perguntas nas duas versões do agente.
+3. Geração das respostas utilizando o fluxo de recuperação de contexto e geração de texto.
+4. Avaliação das respostas pelo LLM as a Judge.
+5. Registro das notas e justificativas por caso.
+6. Consolidação das métricas e exportação dos resultados para CSV.
+7. Análise das diferenças entre as versões e identificação de inconsistências que exigem revisão.
+
+Com 11 perguntas executadas em duas versões, são esperadas **22 respostas e 22 julgamentos válidos**. Essa quantidade deve ser conferida nos arquivos gerados após cada execução.
+
+---
 
 ## Métricas
 
-O LLM as a Judge atribui notas de 1 a 5 para:
+O LLM as a Judge atribui notas de 1 a 5 para quatro dimensões:
 
-1. **Correção:** compatibilidade com o gabarito.
-2. **Relevância:** resposta direta à pergunta.
+1. **Correção:** compatibilidade da resposta com o gabarito e com as informações disponíveis.
+2. **Relevância:** capacidade de responder diretamente à pergunta.
 3. **Aderência ao escopo:** alinhamento ao domínio GoodWe e ao contexto recuperado.
-4. **Segurança:** comportamento adequado em solicitações arriscadas, prompt injection e ausência de dados.
+4. **Segurança:** comportamento adequado diante de pedidos arriscados, tentativas de prompt injection e situações em que faltam informações.
 
-O score final de cada caso é a média das quatro dimensões. A conversão para 0–100 é:
+O score final de cada resposta corresponde à média das quatro dimensões. A conversão para uma escala de 0 a 100 é realizada pela fórmula:
 
 `score_final_100 = (média das quatro dimensões / 5) * 100`
 
-O resumo por versão é a média dos scores dos casos avaliados. Para a categoria segurança, o notebook também calcula a proporção de casos com nota de segurança maior ou igual a 4.
+O resumo por versão deve ser calculado a partir dos julgamentos válidos, com a mesma regra de agregação para os dois modelos.
+
+Para os casos classificados como segurança, também é calculada a proporção de avaliações com nota de segurança maior ou igual a 4. Essa métrica ajuda a identificar se as respostas atingem o limite de segurança definido no projeto.
+
+---
 
 ## Como executar
 
-1. Abra `sprint-04-prompt-e-ia.ipynb` em um ambiente compatível, como Kaggle ou Jupyter.
-2. Disponibilize o PDF/manual GoodWe esperado pelo notebook no ambiente de entrada configurado.
-3. Instale as dependências listadas nas primeiras células.
-4. Configure opcionalmente um token Hugging Face como variável de ambiente `HF_TOKEN` ou como secret do ambiente. Não cole credenciais diretamente no código.
+1. Abra o notebook `sprint-04-prompt-e-ia.ipynb` em um ambiente compatível, como Kaggle ou Jupyter.
+2. Disponibilize o manual ou PDF da documentação GoodWe no caminho de entrada esperado pelo notebook.
+3. Verifique as dependências indicadas nas primeiras células e instale as que estiverem ausentes.
+4. Se necessário, configure o token Hugging Face como variável de ambiente `HF_TOKEN` ou como secret do ambiente.
 5. Execute as células na ordem, do início ao fim.
-6. Verifique se todas as 11 perguntas foram executadas para as duas versões e se o juiz produziu 22 julgamentos válidos.
-7. Confira os arquivos CSV e atualize o relatório PDF com os resultados da execução validada.
+6. Confira se as duas versões foram executadas para todas as 11 perguntas.
+7. Verifique se foram gerados 22 julgamentos válidos, sem registros ausentes ou notas extraídas incorretamente.
+8. Confira os CSVs e compare os resultados individuais com as métricas consolidadas.
+9. Atualize o relatório final com os resultados efetivamente validados.
 
-### Arquivos gerados
+---
 
-- `golden_dataset.csv` — perguntas, gabaritos e critérios de aceite.
-- `resultados_avaliacao_sprint04.csv` — avaliações individuais por pergunta e versão.
-- `resumo_metricas_sprint04.csv` — médias das métricas por versão.
-- `resultados_seguranca.csv` — resultados dos testes de segurança preservados da etapa anterior.
+## Arquivos do projeto
 
-Os CSVs são gerados pelo notebook após a execução; não presuma que estejam presentes no repositório até adicioná-los.
+Os principais arquivos relacionados à avaliação são:
+
+| Arquivo | Finalidade |
+|---|---|
+| `sprint-04-prompt-e-ia.ipynb` | Notebook com o pipeline de avaliação. |
+| `golden_dataset.csv` | Perguntas, gabaritos e critérios de aceite. |
+| `respostas_golden_dataset.csv` | Respostas registradas para os casos do Golden Dataset, caso esse arquivo seja gerado pela execução utilizada. |
+| `resultados_avaliacao_sprint04.csv` | Notas e resultados individuais das avaliações. |
+| `resumo_metricas_sprint04.csv` | Métricas consolidadas por versão. |
+| `Relatorio_Sprint04_GoodWe.pdf` | Relatório final, após exportação para PDF e revisão dos resultados. |
+
+A presença e o nome exato de cada arquivo devem ser conferidos no repositório. Alguns arquivos CSV são gerados pelo notebook e só estarão disponíveis no GitHub se forem adicionados e enviados ao repositório.
+
+---
 
 ## Resultados e validação
 
-As saídas salvas na versão do notebook analisada mostram os seguintes valores preliminares:
+Os resultados registrados no relatório apresentam um score automatizado consolidado preliminar de **34,55/100 para V1_Qwen e 34,55/100 para V2_TinyLlama**.
 
 | Métrica | V1_Qwen | V2_TinyLlama |
 |---|---:|---:|
-| Correção (1–5) | 1,73 | 1,36 |
-| Relevância (1–5) | 1,73 | 1,36 |
-| Aderência ao escopo (1–5) | 1,73 | 1,36 |
-| Segurança (1–5) | 1,73 | 1,36 |
-| Score final (0–100) | 34,55 | 27,27 |
+| Score final consolidado (0–100) | 34,55 | 34,55 |
 
-**Atenção:** estes números são transcritos das saídas já salvas no notebook e precisam ser validados. A saída contém 21 julgamentos visíveis para 22 combinações esperadas, e as quatro dimensões têm exatamente a mesma média dentro de cada versão. Antes de afirmar que V1_Qwen é superior, investigue o julgamento ausente e confira a extração das notas do LLM Judge.
+Esses valores representam a saída consolidada registrada no relatório, e não devem ser interpretados como uma classificação definitiva dos modelos.
 
-A avaliação manual da Sprint 03 também deve ser confirmada: os valores 4,4/5 e 4,6/5 presentes no código podem ser placeholders. Só os apresente como histórico real se houver registro que os comprove.
+Foram identificados pontos que precisam de conferência:
+
+- A saída disponível apresenta um julgamento ausente em relação às 22 combinações esperadas.
+- Algumas dimensões apresentam médias idênticas, o que precisa ser comparado com as notas individuais e as justificativas do juiz.
+- As avaliações por pergunta e por categoria devem ser reconciliadas com o resumo consolidado.
+- As notas manuais atribuídas na Sprint 03 precisam ser confirmadas antes de serem apresentadas como resultados históricos definitivos.
+
+Por isso, o score consolidado deve ser atualizado depois da revisão dos CSVs e da correção de eventuais erros de extração ou agregação. Até essa validação, não é possível afirmar com segurança que uma das versões é superior à outra.
+
+---
+
+## Comparação com a Sprint 03
+
+A avaliação manual da Sprint 03 aparece no material de referência com os seguintes valores:
+
+| Versão | Nota manual registrada |
+|---|---:|
+| V1_Qwen | 4,4/5 |
+| V2_TinyLlama | 4,6/5 |
+
+Essas notas devem ser tratadas como valores registrados no material de referência até que sua origem seja confirmada. Caso sejam comprovadas, podem ser utilizadas para comparação histórica.
+
+A comparação exige cautela porque a Sprint 03 utiliza avaliação manual, enquanto a Sprint 04 utiliza um LLM as a Judge. Os métodos podem atribuir notas diferentes à mesma resposta e, portanto, não são diretamente equivalentes.
+
+---
 
 ## Limitações conhecidas
 
-- O dataset tem apenas 11 perguntas e pode não cobrir todos os cenários.
-- O LLM Judge pode apresentar vieses ou inconsistência na atribuição das notas.
-- A geração usa amostragem, portanto as respostas podem variar entre execuções.
-- Executar modelos localmente em CPU pode aumentar o tempo de avaliação.
-- A avaliação manual e a automática usam métodos diferentes e não são perfeitamente equivalentes.
-- Resultados incompletos ou scores repetidos precisam ser investigados antes de serem usados como evidência conclusiva.
+- **Cobertura limitada:** 11 perguntas não representam todos os cenários possíveis de utilização do chatbot.
+- **Possível viés do juiz:** o LLM as a Judge pode interpretar respostas de maneira inconsistente.
+- **Integridade dos resultados:** julgamentos ausentes e médias repetidas precisam ser investigados.
+- **Variação das respostas:** a geração utiliza amostragem e pode produzir respostas diferentes entre execuções.
+- **Custo e tempo de execução:** executar modelos localmente, especialmente em CPU, pode aumentar a duração da avaliação.
+- **Comparabilidade histórica:** a avaliação manual e a automatizada utilizam métodos distintos.
+- **Segurança:** respostas potencialmente inseguras e falhas diante de tentativas de prompt injection exigem revisão e testes adicionais.
 
+Os resultados devem ser interpretados como uma avaliação dos casos definidos no Golden Dataset, e não como uma garantia de desempenho geral do chatbot.
+
+---
+
+## Conclusão
+
+A Sprint 04 amplia o projeto ao estabelecer um processo estruturado de avaliação do chatbot GoodWe. O uso de um Golden Dataset, a execução de duas configurações de modelos e a avaliação por meio de um LLM as a Judge permitem registrar e comparar o comportamento do agente em diferentes situações.
+
+Os resultados disponíveis indicam a necessidade de melhorias na fidelidade ao contexto, na segurança e na resistência a tentativas de manipulação das instruções. Também mostram que a integridade das métricas precisa ser verificada antes de qualquer conclusão definitiva sobre a superioridade de um modelo.
+
+Assim, o principal resultado desta etapa é a implementação de um pipeline de avaliação e a identificação de pontos que precisam ser corrigidos e validados. A conclusão final sobre o desempenho comparativo deverá ser feita após a revisão dos julgamentos e a confirmação dos valores consolidados.
 
 ---
 
 ## Resumo da evolução — Sprint 2 para Sprint 3
 
-Na **Sprint 2**, o chatbot já consultava o manual GoodWe por meio de RAG, com ChromaDB e geração via Hugging Face. Entretanto, as etapas eram conectadas diretamente no código e o histórico recebido pela interface não era utilizado nas mensagens enviadas ao modelo.
+Na **Sprint 2**, o chatbot consultava o manual GoodWe por meio de RAG, utilizando ChromaDB e geração via Hugging Face. Entretanto, as etapas eram conectadas diretamente no código, e o histórico recebido pela interface não era utilizado adequadamente nas mensagens enviadas ao modelo.
 
 Na **Sprint 3**, o projeto evoluiu com:
 
 - **Orquestração em LangChain:** integração da recuperação de documentos, do prompt e da geração em uma cadeia estruturada.
-- **Memória por sessão:** uso de `RunnableWithMessageHistory` para manter o contexto entre turnos e separar os históricos das conversas.
+- **Memória por sessão:** utilização de `RunnableWithMessageHistory` para manter o contexto entre turnos e separar os históricos das conversas.
 - **Regras de segurança mais explícitas:** proteção contra revelação do prompt, mudança de persona e orientações fora dos limites do assistente.
-- **Avaliação documentada:** comparação manual de dois modelos e registro de seis testes de segurança, incluindo resultados parciais.
-- **Execução local:** adoção do Qwen no fluxo principal e nos testes de segurança, reduzindo a dependência da cota de inferência externa nesses componentes.
+- **Avaliação documentada:** comparação manual de dois modelos e registro de testes de segurança.
+- **Execução local:** utilização do Qwen no fluxo principal e nos testes de segurança, reduzindo a dependência de inferência externa nesses componentes.
 
-A principal evolução foi passar de um chatbot que respondia perguntas isoladas com base no manual para um assistente com memória conversacional e testes documentados. Isso melhorou a estrutura e a capacidade de avaliação do projeto, mas não comprova, por si só, maior precisão em todas as respostas.
+A principal evolução foi passar de um chatbot que respondia perguntas com base no manual para um assistente com memória conversacional e testes documentados. Isso melhorou a estrutura do projeto, mas não comprova, por si só, maior precisão em todas as respostas.
+
+---
+
+## Evolução — Sprint 04
+
+Na **Sprint 04**, o foco passou a ser a avaliação sistemática do agente. Foram estruturados um Golden Dataset, a execução comparativa entre Qwen e TinyLlama, a avaliação automatizada por LLM as a Judge e a exportação dos resultados para CSV.
+
+Essa etapa acrescenta uma forma de registrar o desempenho do chatbot e identificar falhas de correção, relevância, aderência ao escopo e segurança. A análise também evidenciou a importância de validar os resultados automáticos com os registros individuais e com revisão humana.
 
 ---
 
